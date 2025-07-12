@@ -1,0 +1,73 @@
+spring:
+  application:
+    name: document-intelligence-platform
+  
+  data:
+    mongodb:
+      uri: ${MONGODB_URI:mongodb://localhost:27017/documentintelligence}
+      database: ${MONGODB_DATABASE:documentintelligence}
+  
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
+  
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:dev}
+
+server:
+  port: ${PORT:8080}
+  servlet:
+    context-path: /
+
+logging:
+  level:
+    com.docai: DEBUG
+    org.springframework.data.mongodb: DEBUG
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
+  file:
+    name: logs/application.log
+
+# OpenAI Configuration
+openai:
+  api:
+    key: ${OPENAI_API_KEY:}
+    url: ${OPENAI_API_URL:https://api.openai.com/v1/chat/completions}
+
+# Document Storage Configuration
+document:
+  storage:
+    path: ${DOCUMENT_STORAGE_PATH:/tmp/documents}
+    max-size: 52428800 # 50MB
+
+# Azure Cognitive Services (optional)
+azure:
+  cognitive:
+    services:
+      key: ${AZURE_COGNITIVE_SERVICES_KEY:}
+      endpoint: ${AZURE_COGNITIVE_SERVICES_ENDPOINT:}
+
+# Kafka Configuration (optional)
+kafka:
+  bootstrap:
+    servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+  topic:
+    document-processing: document-processing
+
+# Management and Monitoring
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: always
+
+# Application Information
+info:
+  app:
+    name: Document Intelligence Platform
+    version: 1.0.0
+    description: AI-powered document processing and analysis platform
